@@ -11,11 +11,18 @@
         }
         function hook_article_filter($article) {
 
-			$subject = $article["content"];
-            $pattern = '/(<img class.*?alt="?)(.*)(" title.*1em;">)/';
-            $replacement = '$2';
+        $sub = $article["content"];
+        $pat = '~(<a.href="https:\/\/twitter.com\/)(.*?)(">.*?<\/a>)~s';
+        $rep = '$0 $2';
+        $article["content"] = preg_replace($pat,$rep,$sub,1);
 
-            $article["content"] = preg_replace($pattern,$replace,$subject);
+
+        $subject = $article["content"];
+        $pattern = '~(<img class.*?>)~mi';
+        $replacement = '';
+        $article["content"] = preg_replace($pattern,$replacement,$subject);
+
+
 
         return $article;
         }
@@ -23,3 +30,4 @@
                 return 2;
         }
 }
+
